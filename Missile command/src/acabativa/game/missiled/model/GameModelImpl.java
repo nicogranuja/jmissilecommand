@@ -127,7 +127,7 @@ public class GameModelImpl implements Observable, Runnable, GameModel{
 	/* (non-Javadoc)
 	 * @see acabativa.game.missiled.model.GameModel#fire()
 	 */
-	public void fire(){
+	public synchronized void fire(){
 		addNewFriendlyMissile(timeCounter);
 		notifyAll("New friendly missile");
 	}
@@ -136,14 +136,14 @@ public class GameModelImpl implements Observable, Runnable, GameModel{
 	 * @see acabativa.game.missiled.model.GameModel#start()
 	 */
 	public void start(){
-		
+		gameOn = true;
 	}
 	
 	/* (non-Javadoc)
 	 * @see acabativa.game.missiled.model.GameModel#stop()
 	 */
 	public void stop(){
-		
+		gameOn = false;
 	}
 	
 	private synchronized void notifyAll(String event){
@@ -307,7 +307,7 @@ public class GameModelImpl implements Observable, Runnable, GameModel{
 		updateModel();
 	}
 	
-	private void updateModel(){
+	private synchronized void updateModel(){
 		if(timeCounter%10==0){
 			if(randomGenerator.nextInt(100)>75){
 				addNewEnemyMissile(timeCounter);
@@ -344,7 +344,7 @@ public class GameModelImpl implements Observable, Runnable, GameModel{
 	/* (non-Javadoc)
 	 * @see acabativa.game.missiled.model.GameModel#getEnemyMissiles()
 	 */
-	public Map<Missile, Integer> getEnemyMissiles() {
+	public synchronized Map<Missile, Integer> getEnemyMissiles() {
 		return enemyMissiles;
 	}
 
@@ -355,7 +355,7 @@ public class GameModelImpl implements Observable, Runnable, GameModel{
 	/* (non-Javadoc)
 	 * @see acabativa.game.missiled.model.GameModel#getShooterMissiles()
 	 */
-	public Map<Missile, Integer> getShooterMissiles() {
+	public synchronized Map<Missile, Integer> getShooterMissiles() {
 		return shooterMissiles;
 	}
 

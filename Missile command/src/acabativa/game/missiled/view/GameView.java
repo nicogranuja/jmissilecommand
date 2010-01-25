@@ -64,19 +64,20 @@ public class GameView extends JPanel implements ActionListener, KeyListener,
 	
 	@Override
 	public void keyPressed(KeyEvent e) {
-		if(e.getKeyChar() == ('w')){
+		char charKey = e.getKeyChar();
+		if(charKey == ('w')){
 			controller.up();
 		}
-		if(e.getKeyChar() == ('s')){
+		if(charKey == ('s')){
 			controller.down();
 		}
-		if(e.getKeyChar() == ('a')){
+		if(charKey == ('a')){
 			controller.left();
 		}
-		if(e.getKeyChar() == ('d')){
+		if(charKey == ('d')){
 			controller.right();
 		}
-		if(e.getKeyChar() == (' ')){
+		if(charKey == (' ')){
 			controller.fire();
 		}
 	}
@@ -88,8 +89,7 @@ public class GameView extends JPanel implements ActionListener, KeyListener,
 
 	@Override
 	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override

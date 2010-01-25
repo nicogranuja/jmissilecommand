@@ -7,13 +7,13 @@ public class GameControllerImpl implements GameController{
 	
 	GameModel model;
 	GameView view;
+	Thread game;
 	
 	public GameControllerImpl(GameModel model) {
 		super();
 		this.model = model;
 		this.view = new GameView(this, model);
-		Thread t = new Thread(model);
-		t.start();		
+		start();	
 	}	
 
 	@Override
@@ -38,14 +38,15 @@ public class GameControllerImpl implements GameController{
 
 	@Override
 	public void start() {
-		// TODO Auto-generated method stub
-		
+		model.start();
+		game = new Thread(model);
+		game.start();	
 	}
 
 	@Override
 	public void stop() {
-		// TODO Auto-generated method stub
-		
+		model.stop();
+		game = null;
 	}
 
 	@Override
