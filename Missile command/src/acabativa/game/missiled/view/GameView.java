@@ -37,7 +37,7 @@ public class GameView extends JPanel implements ActionListener, KeyListener,
 		this.controller = controller;
 		this.model = model;
 		model.addObserver(this);
-		JFrame frame = new JFrame("Missile Defender");
+		JFrame frame = new JFrame("Missile Command");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(MAX_WIDHT + 17 , MAX_HEIGHT + 37);
 		frame.setLocationRelativeTo(null);
