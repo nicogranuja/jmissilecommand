@@ -8,7 +8,7 @@ public class MissileBlast extends AbstractSimpleElement{
 	
 	int blastPass = 3;
 	int radius = 0;
-	int maxRadius = 30;
+	int maxRadius = 50;
 
 	public MissileBlast(Point position, int maxWidth, int maxHeight) {
 		super(position, maxWidth, maxHeight);

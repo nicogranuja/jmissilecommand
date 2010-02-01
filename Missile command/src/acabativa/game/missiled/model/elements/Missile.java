@@ -9,7 +9,7 @@ public class Missile extends AbstractComplexElement{
 	GameElement currentPosition;
 	GameElement startPosition;
 	GameElement endPosition;
-	double defaultSpeed = 0.5;
+	double defaultSpeed = 5;
 	
 	public Missile(int maxWidth, int maxHeight) throws IllegalArgumentException {
 		super(maxWidth, maxHeight);
@@ -72,7 +72,7 @@ public class Missile extends AbstractComplexElement{
 	}
 	
 	public boolean setCurrentWithIteration(int iteration){
-		LineWalker lineWalker = new LineWalker(5d);
+		LineWalker lineWalker = new LineWalker(defaultSpeed);
 		if(lineWalker.hasIteration(
 				startPosition.getConflictPosition(),
 				endPosition.getConflictPosition(),
@@ -111,6 +111,14 @@ public class Missile extends AbstractComplexElement{
 
 	public void setEndPosition(GameElement endPosition) {
 		this.endPosition = endPosition;
+	}
+
+	public double getDefaultSpeed() {
+		return defaultSpeed;
+	}
+
+	public void setDefaultSpeed(double defaultSpeed) {
+		this.defaultSpeed = defaultSpeed;
 	}
 	
 	

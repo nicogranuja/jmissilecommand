@@ -226,6 +226,7 @@ public class GameModelImpl implements Observable, Runnable, GameModel{
 		Point starPoint = new Point(this.shooter.getConflictPosition());
 		Point currentPoint = new Point(this.shooter.getConflictPosition());
 		Missile missile = new Missile(maxWidth, maxHeight, starPoint, currentPoint, endPoint);
+		missile.setDefaultSpeed(20);
 		return missile;
 	}
 	
