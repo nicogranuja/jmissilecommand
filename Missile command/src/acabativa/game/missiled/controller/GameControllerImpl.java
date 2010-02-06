@@ -1,21 +1,20 @@
 package acabativa.game.missiled.controller;
 
 import acabativa.game.missiled.model.GameModel;
-import acabativa.game.missiled.view.EventLogger;
 import acabativa.game.missiled.view.GameView;
 
 public class GameControllerImpl implements GameController{
 	
 	GameModel model;
 	GameView view;
-	EventLogger logger;
+//	EventLogger logger;
 	Thread game;
 	
 	public GameControllerImpl(GameModel model) {
 		super();
 		this.model = model;
 		this.view = new GameView(this, model);
-		this.logger = new EventLogger(model);
+//		this.logger = new EventLogger(model);
 		start();	
 	}	
 

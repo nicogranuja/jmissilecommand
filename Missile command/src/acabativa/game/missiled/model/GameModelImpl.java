@@ -146,7 +146,7 @@ public class GameModelImpl implements Observable, Runnable, GameModel{
 		gameOn = false;
 	}
 	
-	private synchronized void notifyAll(String event){
+	private  void notifyAll(String event){
 		for (Observer observer : observers) {
 			observer.notifyEvent(event);
 		}
@@ -159,7 +159,9 @@ public class GameModelImpl implements Observable, Runnable, GameModel{
 	
 	private void addNewEnemyMissile(int counter){
 		Missile missile = createEnemyMissile();
-		enemyMissiles.put(missile, new Integer(counter));
+		synchronized(enemyMissiles){
+			enemyMissiles.put(missile, new Integer(counter));
+		}
 	}
 	
 	private void cursorLeft(){
@@ -231,24 +233,26 @@ public class GameModelImpl implements Observable, Runnable, GameModel{
 	}
 	
 	private void updateEnemyMissiles(int counter){
-		Set<Entry<Missile, Integer>> entrys = enemyMissiles.entrySet();
-		Iterator<Entry<Missile, Integer>> iterator = entrys.iterator(); 
-		
-		while (iterator.hasNext()) {
-			Entry<Missile, Integer> entry = iterator.next();
-			int counterMissile = entry.getValue();
-			int iteration = counter-counterMissile;
-			Missile missile = entry.getKey();
-			if(missile.setCurrentWithIteration(iteration)){
-				if(conflictWithAnyBlast(missile)){
-					iterator.remove();
-					defenderPoints = defenderPoints + 1;
+		synchronized(enemyMissiles){
+			Set<Entry<Missile, Integer>> entrys = enemyMissiles.entrySet();
+			Iterator<Entry<Missile, Integer>> iterator = entrys.iterator(); 
+			
+			while (iterator.hasNext()) {
+				Entry<Missile, Integer> entry = iterator.next();
+				int counterMissile = entry.getValue();
+				int iteration = counter-counterMissile;
+				Missile missile = entry.getKey();
+				if(missile.setCurrentWithIteration(iteration)){
+					if(conflictWithAnyBlast(missile)){
+						iterator.remove();
+						defenderPoints = defenderPoints + 1;
+					}
+					continue;
 				}
-				continue;
-			}
-			else{
-				enemyPoints = enemyPoints + 1;
-				iterator.remove();
+				else{
+					enemyPoints = enemyPoints + 1;
+					iterator.remove();
+				}
 			}
 		}
 	}
@@ -308,9 +312,9 @@ public class GameModelImpl implements Observable, Runnable, GameModel{
 		updateModel();
 	}
 	
-	private synchronized void updateModel(){
+	private  void updateModel(){
 		if(timeCounter%10==0){
-			if(randomGenerator.nextInt(100)>75){
+			if(randomGenerator.nextInt(100)>50){
 				addNewEnemyMissile(timeCounter);
 			}
 		}
@@ -345,10 +349,10 @@ public class GameModelImpl implements Observable, Runnable, GameModel{
 	/* (non-Javadoc)
 	 * @see acabativa.game.missiled.model.GameModel#getEnemyMissiles()
 	 */
-	public synchronized Map<Missile, Integer> getEnemyMissiles() {
+	public  Map<Missile, Integer> getEnemyMissiles() {
 		return enemyMissiles;
 	}
-
+	
 	public void setEnemyMissiles(Map<Missile, Integer> enemyMissiles) {
 		this.enemyMissiles = enemyMissiles;
 	}
@@ -356,20 +360,12 @@ public class GameModelImpl implements Observable, Runnable, GameModel{
 	/* (non-Javadoc)
 	 * @see acabativa.game.missiled.model.GameModel#getShooterMissiles()
 	 */
-	public synchronized Map<Missile, Integer> getShooterMissiles() {
+	public  Map<Missile, Integer> getShooterMissiles() {
 		return shooterMissiles;
 	}
 
 	public void setShooterMissiles(Map<Missile, Integer> shooterMissiles) {
 		this.shooterMissiles = shooterMissiles;
-	}
-	
-	public List<Missile> getShooterMissilesAsList() {
-		return new ArrayList<Missile>(shooterMissiles.keySet());
-	}
-	
-	public List<Missile> getEnemyMissilesAsList() {
-		return new ArrayList<Missile>(enemyMissiles.keySet());
 	}
 
 	@Override
@@ -391,6 +387,14 @@ public class GameModelImpl implements Observable, Runnable, GameModel{
 	public void setPosition(Point... positions) {
 		
 	}
+	
+	public int getTimeCounter() {
+		return timeCounter;
+	}
+
+	public boolean isGameOn() {
+		return gameOn;
+	}
 
 	@Override
 	public void run() {
@@ -402,6 +406,17 @@ public class GameModelImpl implements Observable, Runnable, GameModel{
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
+		}
+	}
+
+	@Override
+	public void setCrossPosition(int x, int y) throws IllegalArgumentException {
+		Point point = new Point(x, y);
+		if(isValidPoint(point)){
+			this.cross.setPosition(point);
+		}
+		else{
+			throw new IllegalArgumentException("Illegal position");
 		}
 	}	
 }

@@ -30,9 +30,11 @@ public interface GameModel extends GameElement, Runnable{
 	public abstract void stop();
 
 	public abstract Marker getCross();
+	
+	public abstract void setCrossPosition(int x, int y) throws IllegalArgumentException;
 
 	public abstract MissileShooter getShooter();
-
+			
 	public abstract Map<Missile, Integer> getEnemyMissiles();
 
 	public abstract Map<Missile, Integer> getShooterMissiles();
@@ -40,5 +42,9 @@ public interface GameModel extends GameElement, Runnable{
 	public int getEnemyPoints();
 
 	public int getDefenderPoints();
+	
+	public boolean isGameOn();
+	
+	public int getTimeCounter();
 
 }
