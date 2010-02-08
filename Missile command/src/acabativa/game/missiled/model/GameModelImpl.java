@@ -50,7 +50,7 @@ public class GameModelImpl implements Observable, Runnable, GameModel{
 
 	int timeCounter = 0;
 	int crossPass = 10;
-	int timeToSleep = 50;
+	int timeToSleep = 10;
 	
 	public GameModelImpl(int maxWidth, int maxHeight){
 		this.maxWidth = maxWidth;

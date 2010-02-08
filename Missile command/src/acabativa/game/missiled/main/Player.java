@@ -18,7 +18,7 @@ public class Player implements Runnable {
 	GameModel model;
 	Missile handleThis;
 	int ticker;
-	long sleepTime = 10;
+	long sleepTime = 5;
 	Random r = new Random();
 	int shooterMissileDefaultSpeed = 20;
 	int enemyMissileDefaultSpeed = 100;
